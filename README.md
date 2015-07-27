@@ -19,6 +19,8 @@ Requirements
 
 	- tarfile (Only for parse3.py)
 		$ pip install tarfile
+	- lzma (Only for parse2.py)
+		(Debian/Ubuntu) $ apt-get install python-lzma
 
 	- Stem library - https://stem.torproject.org/
 		$ pip install stem
