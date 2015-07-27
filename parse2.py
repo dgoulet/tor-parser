@@ -6,7 +6,6 @@ import tarfile
 import shutil
 
 from stem.descriptor import DocumentHandler, parse_file
-from stem.descriptor.reader import DescriptorReader
 
 GEOIP_FILENAME = "GeoLiteCity.dat"
 geoip_db = None
