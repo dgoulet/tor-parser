@@ -1,0 +1,8 @@
+*.swp
+*.pyc
+
+GeoLiteCity.dat
+
+/server-descriptors/
+/consensuses/
+/data/
