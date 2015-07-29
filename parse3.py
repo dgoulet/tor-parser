@@ -35,10 +35,14 @@ def dl_server_descriptors(year, month):
         return save_path
 
     print("  [+] Downloading server descriptors %s/%s" % (url, filename))
-    request = urllib.request.urlopen("%s/%s" % (url, filename))
-    if request.code != 200:
-        print("  [-] Unable to fetch server descriptors %s at %s" % \
-              (filename, url))
+    try:
+        request = urllib.request.urlopen("%s/%s" % (url, filename))
+        if request.code != 200:
+            print("  [-] Unable to fetch server descriptors %s at %s" % \
+                  (filename, url))
+            return None
+    except Exception as e:
+        print("  [-] Unable to fetch %s/%s" % (url, filename))
         return None
     fp = open(save_path, "wb+")
     fp.write(request.read())
@@ -63,10 +67,15 @@ def dl_consensus(year, month):
         return save_path
 
     print("  [+] Downloading consensus %s/%s" % (url, filename))
-    request = urllib.request.urlopen("%s/%s" % (url, filename))
-    if request.code != 200:
-        print("  [-] Unable to fetch consensus %s at %s" % (filename, url))
+    try:
+        request = urllib.request.urlopen("%s/%s" % (url, filename))
+        if request.code != 200:
+            print("  [-] Unable to fetch consensus %s at %s" % (filename, url))
+            return None
+    except Exception as e:
+        print("  [-] Unable to fetch %s/%s" % (url, filename))
         return None
+
     fp = open(save_path, "wb+")
     fp.write(request.read())
     fp.close()
