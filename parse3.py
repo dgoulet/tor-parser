@@ -99,9 +99,13 @@ def dl_extra_infos(year, month):
         return save_path
 
     print("  [+] Downloading extra infos %s/%s" % (url, filename))
-    request = urllib.request.urlopen("%s/%s" % (url, filename))
-    if request.code != 200:
-        print("  [-] Unable to fetch extra infos %s at %s" % (filename, url))
+    try:
+        request = urllib.request.urlopen("%s/%s" % (url, filename))
+        if request.code != 200:
+            print("  [-] Unable to fetch extra infos %s at %s" % (filename, url))
+            return None
+    except Exception as e:
+        print("  [-] Unable to fetch %s/%s" % (url, filename))
         return None
     fp = open(save_path, "wb+")
     fp.write(request.read())
@@ -237,9 +241,11 @@ def make_monthly_csv(year, month, day):
     if month < 10:
         str_month = "0%d" % (month)
     consensus_path = dl_consensus(year, str_month)
+    if consensus_path is None:
+        return None
     sd_path = dl_server_descriptors(year, str_month)
     ei_path = dl_extra_infos(year, str_month)
-    if consensus_path is None or sd_path is None or ei_path is None:
+    if sd_path is None or ei_path is None:
         print("Unable to create CSV files for %s-%s" % (year, str_month))
         return None
     prev_sd_path, prev_ei_path = get_previous_data(year, month, day)
