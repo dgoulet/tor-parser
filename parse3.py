@@ -307,6 +307,7 @@ if __name__ == '__main__':
     # Open GeoIP database.
     geoip_db = pygeoip.GeoIP(GEOIP_FILENAME)
 
+    month = day = 0
     try:
         year = int(sys.argv[1])
         if len(sys.argv) > 2:
