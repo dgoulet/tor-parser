@@ -183,7 +183,7 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
             try:
                 sd = next(parse_file(sd_filename))
             except Exception as e:
-                #print("  [-] Not found: %s" % (digest))
+                print("  [-] Server descriptor %s not found" % (digest))
                 continue
 
         # Open extra info.
@@ -201,7 +201,7 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
                 try:
                     ei = next(parse_file(ei_filename))
                 except Exception as e:
-                    #print("    -> Extra info %s not found" % (ei_filename))
+                    print("  [-] Extra info %s not found" % (ei_filename))
                     continue
             try:
                 # Any Guard client ips?
@@ -273,6 +273,10 @@ def make_monthly_csv(year, month, day):
             print("  [-] Consensus %s not found. Skipping!" % (consensus_pathname))
             continue
 
+        # Nullify the previous path if we aren't the first of the month.
+        if dir_day != "1":
+            prev_ei_path = None
+            prev_sd_path = None
         write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path,
                 str(year), str_month, dir_day)
 
