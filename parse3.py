@@ -149,7 +149,7 @@ def create_csv_file(year, month, day):
         return None
     csv = open(csv_filename, 'w+')
     print("  [+] Creating CSV file %s" % (csv_filename))
-    csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,Uptime,GuardClients,DirClients,Longitude,Latitude)\n')
+    csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,GuardClients,DirClients,Uptime,Longitude,Latitude)\n')
     return csv
 
 def client_ips_to_string(ei_dict, sep):
@@ -183,7 +183,7 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
             try:
                 sd = next(parse_file(sd_filename))
             except Exception as e:
-                print("  [-] Not found: %s" % (digest))
+                #print("  [-] Not found: %s" % (digest))
                 continue
 
         # Open extra info.
@@ -201,7 +201,7 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
                 try:
                     ei = next(parse_file(ei_filename))
                 except Exception as e:
-                    print("    -> Extra info %s not found" % (ei_filename))
+                    #print("    -> Extra info %s not found" % (ei_filename))
                     continue
             try:
                 # Any Guard client ips?
@@ -211,8 +211,8 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
                 pass
             try:
                 # Any Directory client ips?
-                if ei.dir_v3_ips is not None and len(ei.dir_v3_ips) != 0:
-                    dir_ips = client_ips_to_string(ei.dir_v3_ips, "|")
+                if ei.dir_v3_reqs is not None and len(ei.dir_v3_reqs) != 0:
+                    dir_ips = client_ips_to_string(ei.dir_v3_reqs, "|")
             except Exception as e:
                 pass
 
