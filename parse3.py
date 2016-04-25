@@ -211,8 +211,8 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
                 pass
             try:
                 # Any Directory client ips?
-                if ei.dir_v3_reqs is not None and len(ei.dir_v3_reqs) != 0:
-                    dir_ips = client_ips_to_string(ei.dir_v3_reqs, "|")
+                if ei.dir_v3_requests is not None and len(ei.dir_v3_requests) != 0:
+                    dir_ips = client_ips_to_string(ei.dir_v3_requests, "|")
             except Exception as e:
                 pass
 
@@ -274,7 +274,7 @@ def make_monthly_csv(year, month, day):
             continue
 
         # Nullify the previous path if we aren't the first of the month.
-        if dir_day != "1":
+        if dir_day != "01":
             prev_ei_path = None
             prev_sd_path = None
         write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path,
