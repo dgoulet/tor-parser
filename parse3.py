@@ -119,7 +119,26 @@ def uncompress(path, dst):
         return
     print("  [+] Uncompressing %s into %s/%s" % (path, dst, dirname))
     with tarfile.open(path) as f:
-        f.extractall(dst)
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner=numeric_owner) 
+            
+        
+        safe_extract(f, dst)
 
 def get_previous_data(year, month, day):
     # If day is undefined or if day is 1, we have to get the previous month
